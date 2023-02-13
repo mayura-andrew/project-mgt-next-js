@@ -11,11 +11,10 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  email     String
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  email     String    @unique
   firstName String
   lastName  String
   password  String
@@ -24,49 +23,40 @@ model User {
 }
 
 model Project {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  name    String
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id])
-
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String
+  ownerId     String
+  owner       User      @relation(fields: [ownerId], references: [id])
   description String?
   due         DateTime?
-  tasks       Task[]
   deleted     Boolean   @default(false)
+  tasks       Task[]
 
   @@unique([ownerId, name])
   @@index([ownerId, id])
 }
 
-enum Task_STATUS {
+enum TASK_STATUS {
   NOT_STARTED
   STARTED
   COMPLETED
 }
 
 model Task {
-id String @id @default(uuid())
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
-ownerId String 
+  id          String      @id @default(uuid())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  status      TASK_STATUS @default(NOT_STARTED)
+  name        String
+  ownerId     String
+  owner       User        @relation(fields: [ownerId], references: [id])
+  projectId   String
+  project     Project     @relation(fields: [projectId], references: [id])
+  description String?
+  due         DateTime?
+  deleted     Boolean     @default(false)
 
-owner User @relation(fields: [ownerId], references: [id])
-
-projectId String
-project Project @relation(fields: [projectId], references: [id])
-
-status Task_STATUS @default(NOT_STARTED)
-name String
-description String
-
-due DateTime?
-deleted Boolean @default(false)
-
-
-@@index([ownerId,id])
-
-
+  @@index([ownerId])
 }
