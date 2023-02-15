@@ -1,4 +1,4 @@
 export const delay = (time) => 
     new Promise((resolve) => {
-        setTimeout(() => resolve(5000), time)
+        setTimeout(() => resolve(10000), time)
     });
