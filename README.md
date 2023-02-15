@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 # Demo https://stalwart-pothos-b32986.netlify.app  
 
+Example Login Details : Email - user@email.com Password : password
+
 ## Getting Started
 
 First, run the development server:
